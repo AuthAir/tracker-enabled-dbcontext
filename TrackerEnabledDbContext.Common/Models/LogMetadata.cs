@@ -7,11 +7,33 @@ namespace TrackerEnabledDbContext.Common.Models
     [Table("LogMetadata")]
     public class LogMetadata : IUnTrackable
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
 
-        public virtual long AuditLogId { get; set; }
+        public LogMetadata()
+        {
+
+            _id = null;
+        }
+
+        long? _id;
+        [Key]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long? Id
+        {
+            get
+            {
+                if (_id == 0) return null;
+                return _id;
+            }
+            set
+            {
+                if (value == 0)
+                    _id = null;
+                else
+                    _id = value;
+            }
+        }
+
+        public virtual string AuditLogId { get; set; }
 
         [ForeignKey("AuditLogId")]
         public virtual AuditLog AuditLog { get; set; }

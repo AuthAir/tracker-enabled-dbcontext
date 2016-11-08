@@ -16,13 +16,20 @@ namespace TrackerEnabledDbContext.Common.Configuration
         internal DbMapping(ITrackerContext context, Type entityType)
         {
             _entityType = entityType;
-            _entityMap = (context as DbContext).Db(_entityType);
+            try
+            {
+                _entityMap = (context as DbContext).Db(_entityType);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message + " " + e.InnerException);
+            }
         }
 
-        //public string GetTableName()
-        //{
-        //    return _entityMap.TableName;
-        //}
+        public string GetTableName()
+        {
+            return _entityMap.TableName;
+        }
 
         //public string GetColumnName(string propertyName)
         //{

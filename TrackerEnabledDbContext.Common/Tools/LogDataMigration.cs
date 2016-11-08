@@ -30,7 +30,8 @@ namespace TrackerEnabledDbContext.Common.Tools
         public async Task MigrateLegacyLogDataAsync(CancellationToken cancellationToken,
             IProgress<MigrationJobStatus> migrationProgress = null)
         {
-            await Task.Run(() =>
+        
+            await new Task(() =>
             {
                 MigrateDataWithProgress(migrationProgress);
             }, cancellationToken);
@@ -132,7 +133,7 @@ namespace TrackerEnabledDbContext.Common.Tools
             {
                 OldName = oldName,
                 NewName = propertyName,
-                RecordId = auditLogDetail.Id
+                RecordId = auditLogDetail.Id.Value
             });
         }
 
@@ -145,10 +146,11 @@ namespace TrackerEnabledDbContext.Common.Tools
 
         private string GetColumnName(PropertyInfo propertyInfo)
         {
-            ColumnAttribute attr = propertyInfo.GetCustomAttribute<ColumnAttribute>(false);
-            if (attr != null)
+            var attr = (ColumnAttribute[])propertyInfo.GetCustomAttributes(typeof(ColumnAttribute), false);
+            //ColumnAttribute attr = propertyInfo.GetCustomAttribute<ColumnAttribute>(false);
+            if (attr != null && attr.Length > 0)
             {
-                return attr.Name;
+                return attr.First().Name;
             }
 
             return propertyInfo.Name;
@@ -170,7 +172,7 @@ namespace TrackerEnabledDbContext.Common.Tools
             {
                 OldName = oldName,
                 NewName = typeFullname,
-                RecordId = auditLogRow.AuditLogId
+                RecordId = auditLogRow.Id.Value
             });
         }
 
@@ -182,10 +184,11 @@ namespace TrackerEnabledDbContext.Common.Tools
 
         private string GetTableName(Type entityType)
         {
-            var attr = entityType.GetCustomAttribute<TableAttribute>();
-            if (attr != null)
+            var attr = (TableAttribute[])entityType.GetCustomAttributes(typeof(TableAttribute), true);
+            //var attr = entityType.GetCustomAttribute<TableAttribute>();
+            if (attr != null && attr.Length > 0)
             {
-                return attr.Name;
+                return attr.First().Name;
             }
 
             return GetDbSetName(entityType);
@@ -198,7 +201,7 @@ namespace TrackerEnabledDbContext.Common.Tools
             var dbsets = allProperties.Where(x =>
                 IsAssignableToGenericType(x.PropertyType, typeof (DbSet<>)));
 
-            var requiredProperty = dbsets.Single(x => x.PropertyType.GenericTypeArguments[0] == entityType);
+            var requiredProperty = dbsets.Single(x => x.PropertyType.GetGenericArguments().FirstOrDefault() == entityType);
 
             return requiredProperty.Name;
         }

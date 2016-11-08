@@ -33,6 +33,7 @@ namespace TrackerEnabledDbContext.Common.Auditors
                 {
                     yield return new AuditLogDetail
                     {
+                        ColumnName = propertyName,
                         PropertyName = propertyName,
                         OriginalValue = OriginalValue(propertyName)?.ToString(),
                         NewValue = CurrentValue(propertyName)?.ToString(),

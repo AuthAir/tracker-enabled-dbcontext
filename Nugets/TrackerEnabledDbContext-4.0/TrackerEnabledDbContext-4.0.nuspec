@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>TrackerEnabledDbContext-4.0</id>
+    <version>1.0.6</version>
+    <title>TrackerEnabledDbContext-4.0</title>
+    <authors>https://github.com/bilal-fazlani/tracker-enabled-dbcontext/, AuthAir, Inc</authors>
+    <owners>AuthAir, Inc</owners>
+    <description>Forked from https://github.com/bilal-fazlani/tracker-enabled-dbcontext/ at commit e76bbc3. Includes TrackerEnabledDbContext and TrackerEnabledDbContext.Common</description>
+    <releaseNotes>commit e76bbc3</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags></tags>
+    <dependencies>
+      <dependency id="EntityFramework" version="6.1.1" />
+      <dependency id="EntityInterfaces" version="0.0.2" />
+      <dependency id="EntityFramework.MappingAPI" version="6.1.0.9" />
+      <dependency id="Microsoft.Bcl" version="1.1.9" />
+      <dependency id="Microsoft.Bcl.Async" version="1.0.168" />
+      <dependency id="Microsoft.Bcl.Build" version="1.0.14" />
+    </dependencies>
+  </metadata>
+</package>

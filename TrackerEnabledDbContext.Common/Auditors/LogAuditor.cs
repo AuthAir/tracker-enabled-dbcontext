@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Infrastructure;
 using System.Dynamic;
 using System.Linq;
@@ -23,6 +24,16 @@ namespace TrackerEnabledDbContext.Common.Auditors
         {
         }
 
+        internal String GetChangeTimeUTC(DateTime FromDateTime)
+        {
+            DateTimeOffset objOffset = FromDateTime.ToUniversalTime();
+            return objOffset.ToString("o");
+        }
+        internal String GetChangeTimeOffset(DateTime FromDateTime)
+        {
+            DateTimeOffset objOffset = FromDateTime.ToLocalTime();
+            return objOffset.ToString("o");
+        }
         internal AuditLog CreateLogRecord(object userName, EventType eventType, ITrackerContext context, ExpandoObject metadata)
         {
             Type entityType = _dbEntry.Entity.GetType().GetEntityType();
@@ -41,8 +52,10 @@ namespace TrackerEnabledDbContext.Common.Auditors
             var newlog = new AuditLog
             {
                 UserName = userName?.ToString(),
-                EventDateUTC = changeTime,
+                EventDateOffSet = GetChangeTimeOffset(changeTime),
+                EventDateUTC = GetChangeTimeUTC(changeTime),
                 EventType = eventType,
+                TableName = mapping.GetTableName(),
                 TypeFullName = entityType.FullName,
                 RecordId = GetPrimaryKeyValuesOf(_dbEntry, keyNames).ToString()
             };

@@ -21,8 +21,8 @@ namespace TrackerEnabledDbContext.Common.Interfaces
         IEnumerable<DbEntityValidationResult> GetValidationErrors();
 
         int SaveChanges();
-        Task<int> SaveChangesAsync();
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        //Task<int> SaveChangesAsync();
+        //Task<int> SaveChangesAsync(CancellationToken cancellationToken);
         DbSet Set(Type entityType);
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
     }

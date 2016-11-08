@@ -1,0 +1,18 @@
+Create a new Solution in Visual Studio 2015
+
+Create new TrackerEnabledDbContext .net 4.0 project and import all files
+Create new TrackerEnabledDbContext.Common .net 4.0 project and import all files
+
+Remove dependency on GetCustomAttribute extension methods only in 4.5
+Replace Task.Run with new Task
+
+
+Replaced AuditLogId with String and added database entity Id as primary key
+Added AuditLogDetailId as String.
+
+Incorporated MIT Licensed EntityInterfaces for DateTime tracking in Audit Table
+
+Update AuditLog:
+Change EventDateUTC to string
+Added EventDateOffset as string
+Add TableName column
